@@ -1,0 +1,251 @@
+﻿ESPECIFICACIÓN DE REQUERIMIENTOS DE SOFTWARE (SRS)
+Sistema de Gestión de Inventario y Ventas de Insumos Agrícolas
+Versión:
+1.1 (Optimizada y Expandida)
+Fecha:
+Junio 2026
+Autor:
+Rubén Darío Delgado Cruz
+Tecnología Base:
+PHP 8.3 (Arquitectura MVC) & MySQL 8.0
+1. Introducción
+1.1 Propósito
+El presente documento detalla la Especificación de Requerimientos de Software (SRS) para el Sistema de Inventario y Ventas de Insumos Agrícolas. Su propósito principal es definir con precisión y claridad tanto los requisitos funcionales como los no funcionales del sistema, sirviendo como guía de referencia técnica y contractual para el diseño, desarrollo, pruebas e implantación del software.
+Este sistema está diseñado específicamente para resolver las complejidades de la comercialización de insumos del agro, optimizando el control de existencias, gestionando la trazabilidad de lotes, automatizando la facturación y ofreciendo reportes financieros estratégicos en tiempo real.
+1.2 Alcance
+El sistema propuesto es una solución de software centralizada bajo entorno web basada en PHP y MySQL. Abarca los siguientes pilares operacionales:
+Administración y Seguridad: Gestión de usuarios con control de acceso basado en roles (RBAC) para Administradores, Vendedores y Clientes.
+Gestión de Terceros: Directorios dinámicos de Proveedores y Clientes con historiales unificados.
+Control de Productos Agrícolas: Clasificación multidimensional (Fertilizantes, Herbicidas, Fungicidas, Insecticidas, Semillas, Herramientas) y control de alertas críticas (Vencimientos y Stock Mínimo).
+Gestión Logística: Registro minucioso de movimientos de inventario (Entradas por compras/devoluciones y Salidas por ventas/pérdidas/ajustes).
+Ciclo Comercial Completo: Módulo de ventas con cotización, validación automatizada de stock y emisión de facturación digital con cálculo estricto de impuestos (IVA) y márgenes de utilidad.
+Dashboard e Inteligencia de Negocio: Panel analítico interactivo con indicadores clave de rendimiento (KPIs) y analítica financiera (ingresos, egresos y utilidades netas diarias, mensuales y anuales).
+1.3 Definiciones, Acrónimos y Abreviaciones
+Término / Acrónimo
+Definición Conceptual y Contextual
+SRS
+Software Requirements Specification (Especificación de Requerimientos de Software). Documento formal que describe el comportamiento esperado del sistema.
+CRUD
+Create, Read, Update, Delete. Operaciones fundamentales de persistencia de datos en bases de datos relacionales.
+Stock
+Volumen físico disponible de un artículo o producto dentro del almacén en un momento determinado.
+Inventario
+Activo realizable que comprende el conjunto de bienes propiedad de la empresa destinados a la venta o al consumo en la cadena operativa.
+Factura
+Título valor y documento contable legal que soporta la transacción de compraventa de bienes o servicios.
+Rol / RBAC
+Role-Based Access Control. Modelo de seguridad que restringe o permite los privilegios en el sistema según la función asignada al usuario.
+Stock Mínimo
+Umbral de seguridad o inventario crítico parametrizado para evitar roturas de stock y desabastecimiento.
+2. Descripción General
+2.1 Perspectiva del Producto
+El software se concibe como una solución web monolítica eficiente basada en el patrón arquitectónico Modelo-Vista-Controlador (MVC). Permite centralizar la información transaccional dispersa de la comercializadora agrícola. El sistema interactúa directamente con una base de datos relacional MySQL garantizando integridad referencial y atomicidad en cada transacción.
+Módulos y Perfiles Principales del Ecosistema:
+Módulo de Administración: Acceso irrestricto a configuraciones globales, gestión completa del CRUD de usuarios, auditoría de stock, control estricto de costos de adquisición y reportes consolidados de rentabilidad.
+Módulo de Ventas: Operado por el vendedor para agilizar la atención en mostrador, permitiendo la búsqueda ágil de productos, facturación inmediata en tiempo real y actualización de inventarios en caliente.
+Módulo de Cliente / Consulta: Interfaz simplificada que faculta al cliente registrado a visualizar el catálogo actualizado de insumos y descargar su historial de facturas emitidas.
+2.2 Características de los Usuarios
+A continuación, se detalla la matriz de operación por tipo de usuario dentro de la plataforma:
+Rol de Usuario
+Descripción Operacional
+Funciones Clave Asignadas
+Administrador
+Propietario del negocio o gerente administrativo con control jerárquico total sobre la data operativa.
+Gestión de usuarios y asignación de roles; CRUD de proveedores y catálogos; Ajustes manuales y auditorías de inventario; Visualización de márgenes netos de ganancias y KPIs empresariales.
+Vendedor
+Personal operativo en el punto de atención directa y logística de despachos.
+Apertura y registro de clientes nuevos; Procesamiento de ventas en mostrador; Emisión e impresión de facturas legales; Consulta del catálogo de productos y validación visual de stock.
+Cliente
+Usuario final destinatario de los insumos agrícolas y comerciales.
+Registro autónomo en la plataforma; Consulta fluida de disponibilidad de insumos en tiempo real; Descarga de duplicados de facturas e historial de compras.
+2.3 Restricciones del Sistema
+Tecnología del Servidor: El backend debe ejecutarse sobre entornos con soporte nativo para PHP 8.3 o versiones superiores para aprovechar mejoras de rendimiento y tipado estricto.
+Persistencia de Datos: El motor relacional mandatorio es MySQL 8.0 o superior, garantizando el soporte para consultas complejas optimizadas e índices eficientes.
+Compatibilidad Frontend: La interfaz de usuario debe asegurar renderizado óptimo en navegadores web modernos (Google Chrome, Mozilla Firefox, Microsoft Edge, Safari) mediante estándares HTML5/CSS3.
+Infraestructura de Red: El sistema requiere conectividad HTTP/HTTPS constante para garantizar la sincronización transaccional en tiempo real entre el punto de venta y el servidor central.
+3. Requisitos Funcionales
+En esta sección se describen detalladamente los requerimientos funcionales expandidos, estructurados con un estándar técnico estricto de ingeniería de software.
+RF01: Gestión Integral de Usuarios y Control de Acceso
+Descripción:
+El sistema permitirá al administrador realizar el ciclo CRUD completo de los usuarios autorizados para operar la plataforma.
+Entradas / Datos:
+Nombre completo, Correo electrónico institucional (único), Contraseña cifrada, Rol asignado.
+Salidas / Resultados:
+Confirmación en pantalla, persistencia en base de datos, actualización del log de auditoría.
+Prioridad de Negocio:
+Alta
+RF02: Control de Acceso Basado en Roles (RBAC)
+Descripción:
+El sistema deberá forzar de forma nativa la restricción de vistas, rutas y endpoints en función del rol asignado (Administrador, Vendedor, Cliente), impidiendo escalamiento de privilegios.
+Entradas / Datos:
+Token de sesión activa, Rol del usuario autenticado.
+Salidas / Resultados:
+Visualización controlada de módulos o redirección automática a página de error 403 (Acceso Denegado).
+Prioridad de Negocio:
+Alta
+RF03: Gestión y Trazabilidad de Proveedores
+Descripción:
+Permite registrar y mantener centralizado el directorio de proveedores de insumos agrícolas para el abastecimiento seguro del inventario.
+Entradas / Datos:
+NIT (Número de Identificación Tributaria - Llave única), Razón Social, Dirección física, Teléfono de contacto, Correo electrónico.
+Salidas / Resultados:
+Ficha técnica del proveedor guardada y disponible en el módulo de compras.
+Prioridad de Negocio:
+Media
+RF04: Gestión Multidimensional de Categorías
+Descripción:
+El sistema debe proveer una estructura jerárquica para clasificar los productos agrícolas de manera obligatoria en categorías estándar (Fertilizantes, Herbicidas, Fungicidas, Insecticidas, Semillas, Herramientas).
+Entradas / Datos:
+Nombre de la categoría, Descripción corta, Código correlativo.
+Salidas / Resultados:
+Categoría creada e indexada en el catálogo general.
+Prioridad de Negocio:
+Media
+RF05: Ficha Técnica y Catálogo de Productos Agrícolas
+Descripción:
+Permite el registro detallado de los insumos agrícolas disponibles para la venta. El precio de venta debe validarse automáticamente frente al de compra.
+Entradas / Datos:
+Código de barras/SKU (único), Nombre comercial, Categoría asociada, Descripción técnica, Precio de Compra, Precio de Venta, Stock Mínimo de seguridad, Stock Actual.
+Salidas / Resultados:
+Producto indexado y disponible para transacciones en tiempo real.
+Prioridad de Negocio:
+Alta
+RF06: Monitoreo Automático de Inventario y Alertas
+Descripción:
+El sistema evaluará de forma síncrona el stock actual de cada artículo. Al igualarse o disminuir del Stock Mínimo parametrizado, el sistema disparará una alerta visual en el Dashboard.
+Entradas / Datos:
+Cantidad de stock actual, Umbral de stock mínimo.
+Salidas / Resultados:
+Notificación en el panel superior, marcado de producto en color de alerta (rojo/amarillo).
+Prioridad de Negocio:
+Alta
+RF07: Abastecimiento y Entradas de Inventario
+Descripción:
+Registrar de forma estricta las compras de insumos a los proveedores logísticos, incrementando automáticamente el Stock Actual del producto.
+Entradas / Datos:
+Fecha de compra, Proveedor seleccionado, Producto(s), Cantidad ingresada, Valor unitario de compra, Número de lote.
+Salidas / Resultados:
+Incremento reflejado en stock, registro en el historial de kardex contable de egresos.
+Prioridad de Negocio:
+Alta
+RF08: Control de Salidas Especiales de Inventario
+Descripción:
+Permite registrar la disminución de existencias por causas ajenas al ciclo de venta estándar, forzando la justificación técnica del movimiento.
+Entradas / Datos:
+Código del producto, Cantidad a descontar, Motivo de la salida (Pérdida, Daño físico, Ajuste de auditoría, Vencimiento químico).
+Salidas / Resultados:
+Deducción automática del stock actual y almacenamiento en bitácora de mermas.
+Prioridad de Negocio:
+Alta
+RF09: Directorio y Registro de Clientes
+Descripción:
+Módulo para administrar los datos de clientes recurrentes o corporativos para efectos tributarios y comerciales.
+Entradas / Datos:
+Documento de identidad / RUT (Único), Nombre completo / Razón Social, Teléfono, Dirección, Correo electrónico.
+Salidas / Resultados:
+Cliente registrado listo para el proceso de facturación rápida.
+Prioridad de Negocio:
+Media
+RF10: Procesamiento Transaccional de Ventas (POS)
+Descripción:
+Módulo principal para liquidar e interactuar con el cliente en caja. El sistema debe realizar la transacción bajo un modelo atómico (Acid): si falla un paso, no se afecta la base de datos.
+Entradas / Datos:
+Cliente seleccionado (o Consumidor Final), Código del producto, Cantidad demandada.
+Salidas / Resultados:
+Registro de venta, descuento automático e inmediato del inventario, envío de datos a facturación.
+Prioridad de Negocio:
+Alta
+RF11: Generación Automatizada de Facturas Legales
+Descripción:
+Una vez confirmada la venta en el RF10, el sistema estructurará y generará una factura comercial electrónica con todos los desgloses fiscales vigentes.
+Entradas / Datos:
+Datos de la transacción de venta aprobada.
+Salidas / Resultados:
+Número de factura secuencial único, Desglose detallado (Subtotal, cálculo dinámico de IVA, Total Neto), opción de impresión POS y descarga en PDF.
+Prioridad de Negocio:
+Alta
+RF12: Reportes Administrativos de Ventas Dinámicos
+Descripción:
+El sistema proveerá reportes consolidados exportables que reflejen el desempeño comercial del establecimiento en rangos temporales específicos.
+Entradas / Datos:
+Filtros de búsqueda por fecha (Día actual, Semana, Mes actual, Año fiscal, Rango personalizado).
+Salidas / Resultados:
+Reporte estructurado en pantalla con opción de exportación a formatos estándar (Excel / PDF).
+Prioridad de Negocio:
+Media
+RF13: Auditoría de Inventarios y Productos Agotados
+Descripción:
+Módulo analítico que lista de manera prioritaria el estado de criticidad de los productos en bodega.
+Entradas / Datos:
+Estado del inventario general.
+Salidas / Resultados:
+Listado consolidado clasificado en: Existencias plenas, Productos en stock mínimo, Artículos totalmente agotados.
+Prioridad de Negocio:
+Media
+RF14: Contabilidad Básica de Caja (Ingresos y Egresos)
+Descripción:
+Centralización contable simplificada para el control del flujo de caja básico de la distribuidora agrícola.
+Entradas / Datos:
+Flujo transaccional automatizado (Ingresos: Ventas efectivas; Egresos: Compras a proveedores, devoluciones procesadas).
+Salidas / Resultados:
+Balance de caja consolidado visible en los reportes de gerencia.
+Prioridad de Negocio:
+Media
+RF15: Cálculo Automatizado de Utilidades y Margen Neto
+Descripción:
+El sistema calculará matemáticamente la rentabilidad neta real aplicando la ecuación financiera: Utilidad = Ventas − Costos directos de adquisición.
+Entradas / Datos:
+Historial analítico de compras vs ventas procesadas en el periodo elegido.
+Salidas / Resultados:
+Indicador numérico de Utilidad Diaria, Utilidad Mensual y Utilidad Anual disponible exclusivamente para el rol Administrador.
+Prioridad de Negocio:
+Alta
+RF16: Dashboard Administrativo de Indicadores Clave (KPIs)
+Descripción:
+Panel principal ejecutivo con representación gráfica de los datos transaccionales críticos del negocio para la toma de decisiones rápidas.
+Entradas / Datos:
+Carga unificada de todos los módulos activos del sistema de base de datos.
+Salidas / Resultados:
+Métricas numéricas de: Total Ventas del día, Total de Productos registrados, Clientes Activos, Proveedores, Alerta de Productos Agotados, Gráfica de Ganancias netas.
+Prioridad de Negocio:
+Alta
+4. Requisitos No Funcionales (Atributos de Calidad)
+RNF01: Seguridad Avanzada de los Datos: Las contraseñas de todos los usuarios deben guardarse de forma irreversible utilizando algoritmos robustos de hashing adaptativo (por ejemplo, mediante la función native password_hash() con BCRYPT en PHP). El control de acceso impedirá la inyección de rutas URL no autorizadas y los datos de sesión se destruirán tras 20 minutos de inactividad.
+RNF02: Eficiencia y Rendimiento Optimizados: Las consultas sql críticas deben optimizarse mediante el uso de índices adecuados en llaves foráneas. El tiempo de respuesta de renderizado del lado del servidor para consultas estándar de inventario debe ser inferior a tres (3) segundos en condiciones normales de red.
+RNF03: Disponibilidad de la Plataforma: La infraestructura de despliegue en servidor de hosting u entorno cloud debe asegurar una disponibilidad mínima mensual del 99.5%, limitando las ventanas programadas de mantenimiento preventivo a horarios nocturnos de baja transaccionalidad.
+RNF04: Usabilidad y Diseño Responsivo: La interfaz de usuario debe ser limpia, intuitiva y autodescriptiva. Se debe implementar un maquetado frontend adaptativo (Totalmente Responsivo) utilizando frameworks modernos como Bootstrap 5, asegurando operabilidad plena tanto en computadores de escritorio en el punto de venta como en tablets y smartphones de supervisores logísticos.
+RNF05: Escalabilidad de la Arquitectura: El diseño de la base de datos y la estructuración del código deben permitir un crecimiento modular sin degradar los servicios existentes, facilitando la adición futura de pasarelas de pago electrónico o facturación electrónica regulada.
+RNF06: Mantenibilidad y Clean Code: La arquitectura técnica del software estará construida bajo el patrón MVC (Modelo-Vista-Controlador), separando la lógica de negocio de la persistencia de datos y de las interfaces de usuario. Todo el código fuente en PHP estará debidamente documentado bajo estándar de comentarios PHPDoc, facilitando auditorías técnicas.
+5. Reglas de Negocio (Políticas Operacionales)
+RN01: Restricción Estricta de Stock para Ventas: Bajo ninguna circunstancia el sistema permitirá procesar o cerrar la venta de un insumo agrícola cuya cantidad demandada sea superior al Stock Actual registrado. Se mitiga de forma estricta el inventario negativo.
+RN02: Integridad de Clasificación de Productos: Todo producto registrado en el sistema debe estar obligatoriamente vinculado a una categoría válida preexistente. No se permite la existencia de productos huérfanos de categoría.
+RN03: Obligatoriedad de Soporte Transaccional: Toda venta cerrada con éxito debe generar de forma automática, síncrona y obligatoria una factura en formato digital con su correspondiente numeración correlativa única para fines contables y legales.
+RN04: Sincronización Inmediata del Inventario: Al confirmarse formalmente una transacción de venta (POS) o una salida por mermas, el inventario del sistema debe actualizarse de forma inmediata decrementando las existencias físicas correspondientes en caliente.
+RN05: Restricción de Privilegios de Eliminación: Solo los usuarios autenticados que posean explícitamente el rol de 'Administrador' tienen el permiso técnico habilitado para realizar eliminaciones lógicas o físicas de registros maestros en el sistema.
+RN06: Viabilidad Financiera de Precios: El sistema rechazará mediante reglas de validación en backend cualquier intento de guardar o actualizar un producto cuyo Precio de Venta configurado sea menor o igual al Precio de Compra registrado, blindando el margen de ganancia.
+6. Casos de Uso Principales
+Para dar mayor madurez al diseño técnico de este SRS, se detalla la especificación estructurada del flujo transaccional principal del negocio:
+Caso de Uso: CU05 - Realizar Venta y Actualizar Stock
+Actor Principal
+Vendedor / Administrador
+Precondiciones
+1. El usuario debe estar autenticado en el sistema.2. Deben existir productos registrados con stock disponible mayor a cero.3. El cliente debe estar registrado en la base de datos o seleccionarse como 'Consumidor Final'.
+Flujo Principal (Paso a Paso)
+1. El Vendedor ingresa al módulo de Ventas (POS).2. Selecciona o busca al Cliente por su documento de identidad.3. El Vendedor escanea el código de barras o busca el insumo agrícola por nombre.4. El sistema muestra la disponibilidad y precio del producto.5. El Vendedor ingresa la cantidad requerida y hace clic en 'Agregar'.6. El sistema valida la regla de negocio RN01 (Disponibilidad de Stock).7. El sistema calcula dinámicamente el Subtotal, IVA y Total Neto.8. El Vendedor confirma el método de pago y procesa la transacción.9. El sistema descuenta el stock en caliente (RN04) y genera la factura (RN03).
+Flujos Alternos / Excepciones
+Flujo Alterno 6A: La cantidad solicitada supera el stock actual.   - El sistema bloquea el botón de agregar.   - Muestra un mensaje de error: 'Acción rechazada: Stock insuficiente'.   - El flujo regresa al paso 5 para corregir la cantidad o cancelar el ítem.
+Postcondiciones
+La venta queda asentada en la base de datos, el inventario físico disminuye de forma síncrona y la factura queda disponible para impresión o descarga PDF.
+Reglas de Negocio Asociadas
+RN01, RN03, RN04, RN06
+7. Anexos y Arquitectura Técnica
+7.1 Stack Tecnológico Homologado
+Backend Core: PHP 8.3 de tipado estricto, implementando Programación Orientada a Objetos (POO).
+Base de Datos: MySQL 8.0 utilizando el motor transaccional InnoDB para forzar llaves foráneas y atomicidad.
+Presentación (UI): Bootstrap 5.3 para estilos fluidos CSS, HTML5 semántico para accesibilidad y JavaScript nativo (Vanilla JS) o Fetch API para procesar peticiones asíncronas hacia el servidor (AJAX).
+Seguridad: Mecanismos criptográficos nativos (BCRYPT) y manejo de variables de sesión del lado del servidor encapsuladas.
+7.2 Arquitectura del Software
+El sistema se estructura bajo el Patrón Arquitectónico Model-View-Controller (MVC):
+Model (Modelo): Representa la estructura de los datos del negocio (Productos, Ventas, Proveedores) e interactúa directamente con la base de datos ejecutando las consultas PDO preparadas contra MySQL para evitar inyecciones SQL.
+View (Vista): Compuesta por las interfaces HTML, CSS y elementos de Bootstrap 5 que renderizan la información y capturan las acciones del usuario final de forma amigable.
+Controller (Controlador): Actúa como intermediario estratégico. Recibe las peticiones HTTP del usuario, invoca las validaciones de las Reglas de Negocio, solicita los datos pertinentes al Modelo y despacha la Vista correspondiente.
