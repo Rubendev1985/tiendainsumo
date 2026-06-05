@@ -46,9 +46,9 @@ $systemStatus = "Conectado a MySQL 8.0";
                     <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-3 py-2 border border-success border-opacity-25">
                         <i class="bi bi-hdd-network"></i> <?= $systemStatus ?>
                     </span>
-                    <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <a href="../views/auth/login.php" class="btn btn-primary-custom">
                         <i class="bi bi-box-arrow-in-right me-2"></i>Acceder
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -67,9 +67,9 @@ $systemStatus = "Conectado a MySQL 8.0";
                         <!-- El JS escribirá aquí -->
                     </div>
                     <div class="d-flex gap-3">
-                        <button class="btn btn-primary-custom btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <a href="../views/auth/login.php" class="btn btn-primary-custom btn-lg">
                             Iniciar Sesión <i class="bi bi-arrow-right ms-2"></i>
-                        </button>
+                        </a>
                         <a href="#modulos" class="btn btn-outline-custom btn-lg">
                             Ver Módulos
                         </a>
@@ -210,61 +210,7 @@ $systemStatus = "Conectado a MySQL 8.0";
         </div>
     </footer>
 
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
-                <div class="modal-header bg-light border-0 p-4 pb-2">
-                    <h5 class="modal-title fw-bold text-dark"><i class="bi bi-person-circle text-success me-2"></i>Acceso al Sistema</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4 pt-2">
-                    <p class="text-muted small mb-4">Selecciona un rol para autocompletar credenciales de prueba:</p>
-                    
-                    <div class="d-flex gap-2 mb-4">
-                        <div class="p-2 border rounded text-center flex-fill role-badge" onclick="fillLogin('admin@agrostock.com', 'Admin123')">
-                            <i class="bi bi-shield-check text-dark fs-4"></i><br>
-                            <small class="fw-bold">Admin</small>
-                        </div>
-                        <div class="p-2 border rounded text-center flex-fill role-badge" onclick="fillLogin('vendedor@agrostock.com', 'Vend2026')">
-                            <i class="bi bi-shop text-secondary fs-4"></i><br>
-                            <small class="fw-bold">Vendedor</small>
-                        </div>
-                        <div class="p-2 border rounded text-center flex-fill role-badge" onclick="fillLogin('cliente@agrostock.com', 'ClientePass')">
-                            <i class="bi bi-person text-info fs-4"></i><br>
-                            <small class="fw-bold">Cliente</small>
-                        </div>
-                    </div>
 
-                    <form id="loginForm">
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold">Correo Electrónico</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-                                <input type="email" class="form-control login-input border-start-0" id="loginEmail" required placeholder="correo@ejemplo.com">
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label small fw-bold">Contraseña</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                                <input type="password" class="form-control login-input border-start-0" id="loginPass" required placeholder="••••••••">
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary-custom w-100 py-2" id="btnLoginSubmit">
-                            Ingresar <i class="bi bi-box-arrow-in-right ms-2"></i>
-                        </button>
-                    </form>
-                    <div id="loginLoader" class="text-center d-none mt-3">
-                        <div class="spinner-border text-success" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <p class="small text-muted mt-2 mb-0">Verificando hash BCRYPT...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Scripts -->
     <!-- Bootstrap Bundle JS -->
@@ -376,48 +322,7 @@ $systemStatus = "Conectado a MySQL 8.0";
             }
         });
 
-        // Login Mock Logic
-        function fillLogin(email, pass) {
-            document.getElementById('loginEmail').value = email;
-            document.getElementById('loginPass').value = pass;
-            
-            // Visual feedback
-            const badges = document.querySelectorAll('.role-badge');
-            badges.forEach(b => b.style.backgroundColor = 'transparent');
-            event.currentTarget.style.backgroundColor = 'rgba(10, 92, 54, 0.1)';
-        }
 
-        document.getElementById('btnLoginSubmit').addEventListener('click', function() {
-            const email = document.getElementById('loginEmail').value;
-            if(!email) return;
-            
-            const btn = this;
-            const loader = document.getElementById('loginLoader');
-            
-            btn.classList.add('d-none');
-            loader.classList.remove('d-none');
-            
-            setTimeout(() => {
-                btn.classList.remove('d-none');
-                loader.classList.add('d-none');
-                
-                // Simulate redirect success
-                btn.classList.remove('btn-primary-custom');
-                btn.classList.add('btn-success');
-                btn.innerHTML = '<i class="bi bi-check2-circle me-2"></i>Acceso Concedido';
-                
-                setTimeout(() => {
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-                    modal.hide();
-                    
-                    // Reset button
-                    btn.classList.add('btn-primary-custom');
-                    btn.classList.remove('btn-success');
-                    btn.innerHTML = 'Ingresar <i class="bi bi-box-arrow-in-right ms-2"></i>';
-                }, 1500);
-                
-            }, 1200);
-        });
     </script>
 </body>
 </html>
