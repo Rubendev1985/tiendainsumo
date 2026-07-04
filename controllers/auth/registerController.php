@@ -14,7 +14,7 @@ echo '<!DOCTYPE html>
 </head>
 <body>';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario_str = $_POST['usuario'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 } else {
-    header("Location: ../../views/auth/register.php");
+    header('Location: ../../views/auth/register.php');
     exit();
 }
 ?>

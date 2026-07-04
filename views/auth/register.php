@@ -123,14 +123,14 @@
                         <label class="form-label small fw-semibold text-dark">Usuario</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person text-muted"></i></span>
-                            <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ej. Juan Pérez" required>
+                            <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ej. Ruben Delgado" required>
                         </div>
                     </div>
                     <div class="col-12">
                         <label class="form-label small fw-semibold text-dark">Email</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-envelope text-muted"></i></span>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Ej. juan@correo.com" required>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Ej. juan@correo.com" >
                         </div>
                     </div>
                     <div class="col-12">

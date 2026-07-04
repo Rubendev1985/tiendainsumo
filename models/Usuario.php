@@ -41,5 +41,19 @@ class Usuario
         }
         return false;
     }
+    public function obtenerPorEmail($email)
+    {
+        $query = 'SELECT id_usuario, usuario, email, password, id_rol FROM usuarios WHERE email = ?';
+        $stmt = $this->conn->prepare($query);
+        if ($stmt) {
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $usuario = $result->fetch_assoc();
+            $stmt->close();
+            return $usuario;
+        }
+        return null;
+    }
 }
 ?>

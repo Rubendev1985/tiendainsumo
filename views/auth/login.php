@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -23,13 +25,13 @@
             <h2 class="auth-title">Bienvenido de nuevo</h2>
             <p class="auth-subtitle">Ingresa a tu panel de control agrícola</p>
             
-            <form action="#" method="POST" id="formLogin">
+            <form action="../../controllers/auth/authController.php" method="POST" id="formLogin">
                 
                 <div class="mb-4">
                     <label class="form-label small fw-bold text-dark">Correo Electrónico</label>
                     <div class="input-group input-group-auth">
                         <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                        <input type="email" class="form-control" placeholder="correo@ejemplo.com" required>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="correo@ejemplo.com" required>
                     </div>
                 </div>
                 
@@ -40,7 +42,7 @@
                     </div>
                     <div class="input-group input-group-auth">
                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input type="password" class="form-control border-end-0" id="passwordField" placeholder="••••••••" required>
+                        <input type="password" name="password" id="password" class="form-control border-end-0" placeholder="••••••••" >
                         <span class="input-group-text bg-white border-start-0 password-toggle" onclick="togglePassword()">
                             <i class="bi bi-eye-slash" id="toggleIcon"></i>
                         </span>
@@ -79,7 +81,7 @@
     <script>
         // Funcionalidad para mostrar/ocultar contraseña
         function togglePassword() {
-            const passField = document.getElementById('passwordField');
+            const passField = document.getElementById('password');
             const toggleIcon = document.getElementById('toggleIcon');
             
             if (passField.type === 'password') {
@@ -93,23 +95,27 @@
             }
         }
 
-        // Simulación de envío del formulario
         document.getElementById('formLogin').addEventListener('submit', function(e) {
-            e.preventDefault();
             const btn = document.getElementById('btnSubmit');
             const spinner = document.getElementById('btnSpinner');
             
             btn.classList.add('disabled');
             spinner.classList.remove('d-none');
-            
-            // Simular petición AJAX
-            setTimeout(() => {
-                btn.classList.remove('disabled');
-                spinner.classList.add('d-none');
-                btn.classList.replace('btn-primary-custom', 'btn-success');
-                btn.innerHTML = '<i class="bi bi-check2-circle me-2"></i>Acceso Concedido';
-            }, 1500);
         });
     </script>
+    
+    <?php if (isset($_SESSION['alert'])): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: '<?= $_SESSION['alert']['icon'] ?>',
+                title: '<?= $_SESSION['alert']['title'] ?>',
+                text: '<?= $_SESSION['alert']['text'] ?>',
+                confirmButtonColor: '#198754'
+            });
+        });
+    </script>
+    <?php unset($_SESSION['alert']); ?>
+    <?php endif; ?>
 </body>
 </html>
