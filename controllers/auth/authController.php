@@ -67,7 +67,6 @@ class AuthController
             'email' => $usuario['email'],
             'id_rol' => $usuario['id_rol']
         ];
-
         switch ($usuario['id_rol']) {
             case '1':
                 header('Location: ../../views/admin/dashboard.php');
