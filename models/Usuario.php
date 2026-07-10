@@ -41,6 +41,7 @@ class Usuario
         }
         return false;
     }
+
     public function obtenerPorEmail($email)
     {
         $query = 'SELECT id_usuario, usuario, email, password, id_rol FROM usuarios WHERE email = ?';
@@ -54,6 +55,21 @@ class Usuario
             return $usuario;
         }
         return null;
+    }
+
+    public function obtenerTodos()
+    {
+        $query = 'SELECT u.id_usuario, u.usuario, u.email, u.id_rol, u.estado 
+                  FROM usuarios u 
+                  LEFT JOIN roles r ON u.id_rol = r.id_rol';
+        $result = $this->conn->query($query);
+        $usuarios = [];
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $usuarios[] = $row;
+            }
+        }
+        return $usuarios;
     }
 }
 ?>
