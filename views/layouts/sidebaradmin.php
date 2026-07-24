@@ -14,7 +14,8 @@ switch ($id_rol) {
 }
 $nombreCompleto = $usuario['usuario'];
 ?>
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <aside class="w-64 bg-white shadow-xl border-r border-gray-200">
     <div class="h-32 flex flex-col items-center justify-center border-b border-gray-100 px-4 gap-1">
         <div class="text-center text-green-800">

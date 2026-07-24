@@ -8,9 +8,13 @@ if (!isset($_SESSION['usuario']) || ($_SESSION['usuario']['id_rol'] != 1 && $_SE
 
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../models/Usuario.php';
+require_once __DIR__ . '/../../models/Rol.php';
 
 $usuarioModel = new Usuario();
 $usuarios = $usuarioModel->obtenerTodos();
+
+$rolModel = new Rol();
+$roles = $rolModel->obtenerTodos();
 
 $titulo = 'Dashboard Administrador';
 require_once __DIR__ . '/../layouts/header.php';
@@ -21,9 +25,10 @@ require_once __DIR__ . '/../layouts/sidebaradmin.php';
     <div class="bg-white rounded-2xl shadow p-6 border border-slate-200">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-4xl font-light text-slate-800">Gestión de <span class="font-bold">Usuarios</span></h2>
-            <button onclick="openModal('modalCrear')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl shadow inline-block">
-                Agregar Usuario
-            </button>
+           <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Agregar Usuarios
+</button>
         </div>
 
         <?php if (isset($_SESSION['alert'])): ?>
@@ -89,6 +94,90 @@ require_once __DIR__ . '/../layouts/sidebaradmin.php';
             </table>
         </div>
     </div>
+<!-- Modal agregar Usuarios-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Nuevos Usuarios</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+           <form action="../../controllers/registerController.php" method="POST" id="formRegister">
+                
+
+                <div class="row g-3 mb-4">
+
+                                  <div class="col-12">
+                <label for="rol">Rol</label>
+<select name="rol" id="rol" class="form-select">
+    <option value="" selected disabled>Seleccione un rol</option>
+    <?php foreach ($roles as $rol): ?>
+        <option value="<?= $rol['id_rol'] ?>"><?= htmlspecialchars($rol['nombre']) ?></option>
+    <?php endforeach; ?>
+</select>
+                    </div>
+
+
+
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold text-dark">Usuario</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person text-muted"></i></span>
+                            <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Ej. Ruben Delgado" required>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold text-dark">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope text-muted"></i></span>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Ej. juan@correo.com" >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold text-dark">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Mínimo 8 caracteres" onkeyup="checkStrength()" required>
+                            <span class="input-group-text toggle-password" onclick="toggleRegPassword('password', 'toggleIcon1')">
+                                <i class="bi bi-eye-slash" id="toggleIcon1"></i>
+                            </span>
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="small mt-1 text-end"><span id="strengthText"></span></div>
+                    </div>
+                       <div class="col-12">
+                <label for="rol">Estado</label>
+<select name="rol" id="rol" class="form-select">
+    <option value="" selected disabled>Seleccione un estado</option>
+    <option value="1">Activo</option>
+    <option value="0">Inactivo</option>
+</select>
+                    </div>
+
+                </div>
+
+              
+              <button type="submit" class="btn btn-primary text-white w-100 py-3 mb-4 d-flex justify-content-center align-items-center gap-2" id="btnRegSubmit">
+                    <span class="fw-semibold">Guardar</span>
+                    <i class="bi bi-arrow-right-circle ms-1"></i>
+                    <span class="spinner-border spinner-border-sm d-none" id="btnRegSpinner" role="status" aria-hidden="true"></span>
+                </button>
+                
+            </form>
+      </div>
+      <div class="modal-footer">
+    
+    </div>
+  </div>
+</div>
+
+
+
+
+
 
     <div class="bg-white rounded-2xl shadow p-6 border border-slate-200">
         <div class="flex items-center justify-between mb-6">
