@@ -26,7 +26,7 @@ require_once __DIR__ . '/../layouts/sidebaradmin.php';
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-4xl font-light text-slate-800">Gestión de <span class="font-bold">Usuarios</span></h2>
            <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Agregar Usuarios
 </button>
         </div>
@@ -64,20 +64,26 @@ require_once __DIR__ . '/../layouts/sidebaradmin.php';
                         <td class="p-4"><?= htmlspecialchars($usuario['id_usuario']) ?></td>
                         <td class="p-4"><?= htmlspecialchars($usuario['usuario']) ?></td>
                         <td class="p-4"><?= htmlspecialchars($usuario['email']) ?></td>
-                        <td class="p-4 capitalize"><?= htmlspecialchars($usuario['id_rol']) ?></td>
+                     <td class="p-4 capitalize"><?= htmlspecialchars($usuario['id_rol']) ?></td>
                          <td class="p-4"><?= htmlspecialchars($usuario['estado']) ?></td>
                          <td>
-                          <button type="button" 
+                <button type="button" 
         class="btn btn-success btn-sm editbtn d-flex align-items-center justify-content-center"
         data-bs-toggle="modal" 
-       
+        data-bs-target="#editar"
+        data-id="<?= $usuario['id_usuario'] ?>"
+        data-name="<?= $usuario['usuario'] ?>"
+        data-email="<?= $usuario['email'] ?>"
+        data-rol="<?= $usuario['id_rol'] ?>"
+        data-estado="<?= $usuario['estado'] ?>"
         style="width:35px; height:35px; border-radius:8px;">
     <i class="fa-solid fa-pen"></i>
 </button>
                                </td>
                                 <td>
                                <button type="button" class="btn btn-danger deletebtn" 
-                                        data-bs-toggle="modal" data-bs-target="#eliminar">
+                                        data-bs-toggle="modal" data-bs-target="#eliminar"
+                                        data-id="<?= $usuario['id_usuario'] ?>">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                     </td>
@@ -149,8 +155,8 @@ require_once __DIR__ . '/../layouts/sidebaradmin.php';
                         <div class="small mt-1 text-end"><span id="strengthText"></span></div>
                     </div>
                        <div class="col-12">
-                <label for="rol">Estado</label>
-<select name="rol" id="rol" class="form-select">
+                <label for="estado">Estado</label>
+<select name="estado" id="estado" class="form-select">
     <option value="" selected disabled>Seleccione un estado</option>
     <option value="1">Activo</option>
     <option value="0">Inactivo</option>
@@ -173,11 +179,6 @@ require_once __DIR__ . '/../layouts/sidebaradmin.php';
     </div>
   </div>
 </div>
-
-
-
-
-
 
     <div class="bg-white rounded-2xl shadow p-6 border border-slate-200">
         <div class="flex items-center justify-between mb-6">
@@ -217,246 +218,138 @@ require_once __DIR__ . '/../layouts/sidebaradmin.php';
     </div>
 </div>
 
-<!-- Modal Crear Usuario -->
-<div id="modalCrear" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden">
-        <div class="flex justify-between items-center p-6 border-b border-slate-200">
-            <h3 class="text-2xl font-bold text-slate-800">Agregar Usuario</h3>
-            <button onclick="closeModal('modalCrear')" class="text-slate-400 hover:text-slate-600 transition-colors">
-                <i class="fas fa-times text-xl"></i>
-            </button>
+
+
+
+
+< <!-- Modal de Edición -->
+            <div class="modal fade" id="editar" tabindex="-1" aria-labelledby="editarLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="formEditar" action="../../controllers/UsuarioController.php?accion=update" method="POST">
+                         
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editarLabel">Editar Usuario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                        
+                            <div class="modal-body">
+                                <input type="hidden" name="id" id="edit-id">
+                                <div class="mb-3">
+                                           <div class="mb-3">
+                                    <label for="edit-rol" class="form-label">Rol</label>
+                             <select name="rol" id="edit-rol" class="form-select">
+    <option value="" selected disabled>Seleccione un rol</option>
+    <?php foreach ($roles as $rol): ?>
+        <option value="<?= $rol['id_rol'] ?>"><?= htmlspecialchars($rol['nombre']) ?></option>
+    <?php endforeach; ?>
+</select>
+
+                                </div>
+                                    <label for="edit-name" class="form-label">Usuario</label>
+                                    <input type="text" class="form-control" id="edit-name" name="name">
+                                </div>  
+                                <div class="mb-3">
+                                    <label for="edit-email" class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="edit-email" name="email">
+                                </div>
+                             
+                                <div class="mb-3">
+                                    <label for="edit-estado" class="form-label">Estado</label>
+                                    <select class="form-control" id="edit-estado" name="estado" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow transition-colors">Actualizar Usuario</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+<!---Finaliza modal Editar -->
+
+<!---Modal Elimnar -->
+
+
+                    <!-- Modal de Confirmación de Eliminación -->
+<div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="eliminarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formEliminar" action="../../controllers/UsuarioController.php?accion=delete" method="POST">
+             
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eliminarLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="delete-id">
+                    <p>¿Está seguro de que desea eliminar este Usuario?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+            </form>
         </div>
-        <form action="../../controllers/AdminUsuarioController.php?accion=crear" method="POST" class="p-6 space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Nombres *</label>
-                    <input type="text" name="nombres" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Apellidos *</label>
-                    <input type="text" name="apellidos" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none">
-                </div>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Correo Electrónico *</label>
-                <input type="email" name="email" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Contraseña *</label>
-                <input type="password" name="password" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Rol *</label>
-                <select name="rol" id="rolSelect" required onchange="toggleExtraFields(this.value)" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none bg-white">
-                    <option value="">Seleccione un rol...</option>
-                    <option value="administrador">Administrador</option>
-                    <option value="docente">Docente</option>
-                    <option value="estudiante">Estudiante</option>
-                    <option value="acudiente">Acudiente</option>
-                </select>
-            </div>
-
-            <!-- Campos extra para Estudiantes -->
-            <div id="estudianteFields" class="hidden space-y-4 pt-4 border-t border-slate-100">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-1">Código Estudiantil *</label>
-                        <input type="text" name="codigo_estudiantil" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-1">Grado Actual</label>
-                        <input type="number" name="grado_actual" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Fecha de Nacimiento</label>
-                    <input type="date" name="fecha_nacimiento" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                </div>
-            </div>
-
-            <!-- Campos extra para Acudientes -->
-            <div id="acudienteFields" class="hidden pt-4 border-t border-slate-100">
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Teléfono / Celular *</label>
-                    <input type="text" name="telefono" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                </div>
-            </div>
-            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200 mt-6">
-                <button type="button" onclick="closeModal('modalCrear')" class="px-5 py-2 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
-                <button type="submit" class="px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow transition-colors">Guardar Usuario</button>
-            </div>
-        </form>
     </div>
 </div>
 
-<!-- Modal Vincular Acudiente-Estudiante -->
-<div id="modalVincular" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
-        <div class="flex justify-between items-center p-6 border-b border-slate-200">
-            <h3 class="text-xl font-bold text-slate-800">Vincular Estudiante</h3>
-            <button onclick="closeModal('modalVincular')" class="text-slate-400 hover:text-slate-600 transition-colors">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-        <form action="../../controllers/AdminUsuarioController.php?accion=vincular_acudiente" method="POST" class="p-6 space-y-4">
-            <input type="hidden" name="id_usuario_acudiente" id="vincular_id_usuario">
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Acudiente</label>
-                <input type="text" id="vincular_nombre_acudiente" readonly class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-600 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Seleccionar Estudiante</label>
-                <select name="id_estudiante" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none bg-white">
-                    <option value="">Seleccione un estudiante...</option>
-                    <?php
-                    $db_v = (new Database())->conectar();
-                    $stmt_v = $db_v->prepare('SELECT e.id_estudiante, u.nombres, u.apellidos FROM estudiantes e JOIN usuarios u ON e.id_usuario = u.id_usuario ORDER BY u.apellidos');
-                    $stmt_v->execute();
-                    $estudiantes_v = $stmt_v->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($estudiantes_v as $ev):
-                        ?>
-                        <option value="<?= $ev['id_estudiante'] ?>"><?= htmlspecialchars($ev['apellidos'] . ' ' . $ev['nombres']) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Parentesco</label>
-                <select name="parentesco" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none bg-white">
-                    <option value="Padre">Padre</option>
-                    <option value="Madre">Madre</option>
-                    <option value="Tutor">Tutor</option>
-                    <option value="Abuelo/a">Abuelo/a</option>
-                    <option value="Otro">Otro</option>
-                </select>
-            </div>
-            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200 mt-6">
-                <button type="button" onclick="closeModal('modalVincular')" class="px-5 py-2 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
-                <button type="submit" class="px-5 py-2 text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow transition-colors font-bold">Vincular</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-</script>
-
-<!-- Modal Editar Usuario -->
-<div id="modalEditar" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden">
-        <div class="flex justify-between items-center p-6 border-b border-slate-200">
-            <h3 class="text-2xl font-bold text-slate-800">Editar Usuario</h3>
-            <button onclick="closeModal('modalEditar')" class="text-slate-400 hover:text-slate-600 transition-colors">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-        </div>
-        <form action="../../controllers/AdminUsuarioController.php?accion=editar" method="POST" class="p-6 space-y-4">
-            <input type="hidden" name="id_usuario" id="edit_id_usuario">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Nombres *</label>
-                    <input type="text" name="nombres" id="edit_nombres" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Apellidos *</label>
-                    <input type="text" name="apellidos" id="edit_apellidos" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none">
-                </div>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Correo Electrónico</label>
-                <input type="email" id="edit_email" readonly class="w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-500 rounded-lg outline-none cursor-not-allowed">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Nueva Contraseña <span class="font-normal text-slate-400">(opcional)</span></label>
-                <input type="password" name="password" placeholder="••••••••" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Rol *</label>
-                <select name="rol" id="edit_rol" required onchange="toggleExtraFieldsEdit(this.value)" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none bg-white">
-                    <option value="administrador">Administrador</option>
-                    <option value="docente">Docente</option>
-                    <option value="estudiante">Estudiante</option>
-                    <option value="acudiente">Acudiente</option>
-                </select>
-            </div>
-
-            <!-- Campos extra para Edición -->
-            <div id="estudianteFieldsEdit" class="hidden space-y-4 pt-4 border-t border-slate-100">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-1">Código Estudiantil *</label>
-                        <input type="text" name="codigo_estudiantil" id="edit_codigo_estudiantil" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-1">Grado Actual</label>
-                        <input type="number" name="grado_actual" id="edit_grado_actual" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Fecha de Nacimiento</label>
-                    <input type="date" name="fecha_nacimiento" id="edit_fecha_nacimiento" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                </div>
-            </div>
-
-            <div id="acudienteFieldsEdit" class="hidden pt-4 border-t border-slate-100">
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Teléfono / Celular *</label>
-                    <input type="text" name="telefono" id="edit_telefono" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                </div>
-            </div>
-            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200 mt-6">
-                <button type="button" onclick="closeModal('modalEditar')" class="px-5 py-2 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
-                <button type="submit" class="px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow transition-colors">Actualizar Usuario</button>
-            </div>
-        </form>
-    </div>
-</div>
+<!---Finaliza modal Elimnar -->
 
 <script>
-    function openModal(id) {
-        document.getElementById(id).classList.remove('hidden');
-    }
+                document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.editbtn').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                document.getElementById('edit-id').value = id;
+                document.getElementById('edit-rol').value = this.getAttribute('data-rol');
+                document.getElementById('edit-name').value = this.getAttribute('data-name');
+                document.getElementById('edit-email').value = this.getAttribute('data-email');
+                
+                let estadoVal = this.getAttribute('data-estado');
+                let selectEstado = document.getElementById('edit-estado');
+                if (estadoVal !== null) {
+                    estadoVal = estadoVal.toString().trim().toLowerCase();
+                    if (estadoVal === '1' || estadoVal === 'activo' || estadoVal === 'true' || estadoVal === 'activa') {
+                        selectEstado.value = '1';
+                    } else if (estadoVal === '0' || estadoVal === 'inactivo' || estadoVal === 'false' || estadoVal === 'inactiva') {
+                        selectEstado.value = '0';
+                    } else {
+                        selectEstado.value = estadoVal;
+                    }
+                }
+            });
+        });
+    });
 
-    function closeModal(id) {
-        document.getElementById(id).classList.add('hidden');
-    }
 
-    function toggleExtraFields(rol, mode = '') {
-        const estFields = document.getElementById('estudianteFields' + mode);
-        const acuFields = document.getElementById('acudienteFields' + mode);
-        
-        if (estFields) estFields.classList.add('hidden');
-        if (acuFields) acuFields.classList.add('hidden');
-        
-        if (rol === 'estudiante' && estFields) {
-            estFields.classList.remove('hidden');
-        } else if (rol === 'acudiente' && acuFields) {
-            acuFields.classList.remove('hidden');
-        }
-    }
+            </script>
 
-    function toggleExtraFieldsEdit(rol) {
-        toggleExtraFields(rol, 'Edit');
-    }
 
-    function openEditModal(usuario) {
-        document.getElementById('edit_id_usuario').value = usuario.id_usuario;
-        document.getElementById('edit_nombres').value = usuario.nombres;
-        document.getElementById('edit_apellidos').value = usuario.apellidos;
-        document.getElementById('edit_email').value = usuario.email;
-        document.getElementById('edit_rol').value = usuario.rol;
-        
-        // Cargar campos extra
-        if (usuario.rol === 'estudiante') {
-            document.getElementById('edit_codigo_estudiantil').value = usuario.codigo_estudiantil || '';
-            document.getElementById('edit_grado_actual').value = usuario.grado_actual || '';
-            document.getElementById('edit_fecha_nacimiento').value = usuario.fecha_nacimiento || '';
-        } else if (usuario.rol === 'acudiente') {
-            document.getElementById('edit_telefono').value = usuario.telefono || '';
-        }
-        
-        toggleExtraFieldsEdit(usuario.rol);
-        openModal('modalEditar');
-    }
-</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.deletebtn').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                if (document.getElementById('delete-id')) {
+                    document.getElementById('delete-id').value = id;
+                }
+            });
+        });
+    });
+</script> 
+
+
+
+
 
 
 <!-- DataTables CSS & JS -->

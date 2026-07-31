@@ -14,6 +14,9 @@ switch ($id_rol) {
 }
 $nombreCompleto = $usuario['usuario'];
 ?>
+
+
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <aside class="w-64 bg-white shadow-xl border-r border-gray-200">
@@ -26,23 +29,23 @@ $nombreCompleto = $usuario['usuario'];
 
     <nav class="mt-4 px-3 space-y-2">
         <?php if ($id_rol === '1' || $id_rol === 1): ?>
-            <a href="../admin/dashboard.php" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
+            <a href="../admin/dashboard.php"  style="text-decoration: none" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
                 <i class="fas fa-gauge-high"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="../admin/gusuarios.php" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
+            <a href="../admin/gusuarios.php" style="text-decoration: none" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
                 <i class="fas fa-users"></i>
                 <span>Gestion Usuarios</span>
             </a>
-            <a href="categorias.php" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
+            <a href="categorias.php" style="text-decoration: none" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
                 <i class="fas fa-tags"></i>
                 <span>Proveedores</span>
             </a>
-            <a href="productos.php" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
+            <a href="productos.php" style="text-decoration: none" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
                 <i class="fas fa-box"></i>
                 <span>Categorias</span>
             </a>
-            <a href="productos.php" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
+            <a href="productos.php" style="text-decoration: none" class="flex items-center gap-3 px-4 py-3 rounded-lg text-green-700 hover:bg-blue-50 transition">
                 <i class="fas fa-box"></i>
                 <span>Productos</span>
             </a>

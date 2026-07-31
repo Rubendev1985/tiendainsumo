@@ -71,5 +71,49 @@ class Usuario
         }
         return $usuarios;
     }
+    public function actualizar($id_usuario, $datos)
+    {
+        $query = 'UPDATE usuarios SET usuario = ?, email = ?, id_rol = ?, estado = ?';
+        $params = [$datos['usuario'], $datos['email'], (int)$datos['id_rol'], (int)$datos['estado']];
+        $types = 'ssii';
+
+        if (isset($datos['password_hash'])) {
+            $query .= ', password = ?';
+            $params[] = $datos['password_hash'];
+            $types .= 's';
+        }
+
+        $query .= ' WHERE id_usuario = ?';
+        $params[] = $id_usuario;
+        $types .= 'i';
+
+        $stmt = $this->conn->prepare($query);
+        if ($stmt) {
+            $stmt->bind_param($types, ...$params);
+            $result = $stmt->execute();
+            if (!$result) {
+                return $stmt->error;
+            }
+            $stmt->close();
+            return true;
+        }
+        return $this->conn->error;
+    }
+
+    public function eliminar($id_usuario)
+    {
+        $query = 'DELETE FROM usuarios WHERE id_usuario = ?';
+        $stmt = $this->conn->prepare($query);
+        if ($stmt) {
+            $stmt->bind_param('i', $id_usuario);
+            $result = $stmt->execute();
+            if (!$result) {
+                return $stmt->error;
+            }
+            $stmt->close();
+            return true;
+        }
+        return $this->conn->error;
+    }
 }
 ?>
